@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musik Wajib Nasional | IPAS Kelas 3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variabel Warna Disesuaikan */
+        :root {
+            --primary-color: #27ae60; /* Hijau Solid */
+            --secondary-color: #f1c40f; /* Kuning Cerah (untuk shadow) */
+            --accent-color: #c0392b; /* Merah Solid */
+            --text-outline: #ffffff;
+            --text-color-dark: #1c1c1c;
+            --bg-overlay-color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Gaya Dasar */
+        body {
+            font-family: 'Balsamiq Sans', cursive, sans-serif; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 90vh; 
+            justify-content: center;
+            
+            /* --- PENGATURAN BACKGROUND IMAGE --- */
+            background-image: url('media/bg_ipas.jpg'); 
+            background-size: cover;
+            background-attachment: fixed; 
+            background-position: center;
+        }
+
+        .container {
+            width: 95%; /* Diperbesar agar video lebih dominan */
+            max-width: 1000px; /* Maksimal lebar untuk layar besar */
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+        .container h2 {
+            font-family: 'Chewy', cursive, sans-serif;
+            font-size: 3.5em; /* Ukuran lebih besar */
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            margin-top:1px;
+            text-shadow: 3px 3px 0 var(--secondary-color);
+        }
+        /* ---------------------------------------------------------------------------------- */
+        /* --- TOP BAR (SAMA PERSIS DENGAN MENU) --- */
+        /* ---------------------------------------------------------------------------------- */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: transparent; 
+            padding: 10px 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end; 
+            align-items: center;
+        }
+
+        .top-right-buttons {
+            display: flex;
+            margin-right: 30px; 
+            gap: 20px;
+            align-items: center;
+        }
+
+        .top-right-buttons img {
+            cursor: pointer;
+            transition: transform 0.2s;
+            border-radius: 50%; 
+            background-color: #ffffff; 
+            padding: 5px; 
+            border: none; 
+            width: 45px;
+            height: 45px;
+            filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.5));
+        }
+
+        .top-right-buttons img:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px var(--secondary-color)); 
+        }
+
+        /* ---------------------------------------------------------------------------------- */
+        /* --- KONTEN MUSIK (VIDEO EMBED) --- */
+        /* ---------------------------------------------------------------------------------- */
+        .content-box {
+            background-color: var(--bg-overlay-color);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border: 5px solid var(--primary-color);
+        }
+
+        .content-box h2 {
+            font-family: 'Chewy', cursive, sans-serif;
+            font-size: 3em;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0 var(--secondary-color);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* Rasio aspek 16:9 */
+            height: 0;
+            margin-bottom: 15px;
+            border: 5px solid var(--accent-color);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* ---------------------------------------------------------------------------------- */
+        /* --- GAYA TOMBOL NEXT (TUJUAN PEMBELAJARAN) --- */
+        /* ---------------------------------------------------------------------------------- */
+        .btn-tujuan {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            text-decoration: none;
+            font-family: 'Chewy', cursive, sans-serif;
+            font-size: 1.8em;
+            color: white;
+            background-color: var(--primary-color); /* Green */
+            border-radius: 15px;
+            border: 5px solid var(--secondary-color);
+            box-shadow: 0 8px 0 var(--secondary-color), 0 10px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.15s ease-out;
+            text-shadow: 2px 2px 0 var(--text-color-dark);
+        }
+
+        .btn-tujuan:hover {
+            background-color: #2ecc71; /* Lighter Green */
+            transform: translateY(-2px);
+            box-shadow: 0 10px 0 var(--secondary-color), 0 12px 18px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-tujuan:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 var(--secondary-color), 0 5px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ---------------------------------------------------------------------------------- */
+        /* --- Bagian POPUP (SAMA PERSIS DENGAN MENU) --- */
+        /* ---------------------------------------------------------------------------------- */
+        #popup-profil {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75); 
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .popup-content {
+            background: linear-gradient(135deg, #f0f3f5, #ffffff);
+            padding: 30px 40px;
+            border-radius: 25px; 
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            text-align: center;
+            border: 7px solid var(--primary-color); 
+            transform: scale(0.8);
+            animation: popUp 0.3s forwards;
+            font-family: 'Balsamiq Sans', cursive, sans-serif;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes popUp {
+            to { transform: scale(1); }
+        }
+
+        #popup-profil h3 {
+            color: var(--accent-color);
+            font-family: 'Chewy', cursive, sans-serif;
+            font-size: 2.2em;
+            margin: 0 0 10px 0;
+            text-shadow: 2px 2px 0 var(--secondary-color);
+        }
+
+        .profil-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--secondary-color);
+            margin: 10px auto 20px;
+        }
+
+        .profil-detail p {
+            font-size: 1.05em;
+            color: #34495e;
+            margin: 5px 0;
+            font-weight: 700;
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        .profil-detail strong {
+            color: var(--primary-color);
+            display: inline-block;
+            min-width: 100px; 
+            text-align: right;
+            margin-right: 5px;
+        }
+        
+        #popup-close {
+            margin-top: 30px;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 900;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        #popup-close:hover {
+            background-color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="top-bar">
+        <div class="top-right-buttons" id="nav-buttons">
+            <img src="media/profil.jpg" alt="profil" class="btn-profil" data-menu="profil" width="50px" title="Profil Pengembang">
+            <img src="media/home.png" alt="home" class="btn-play" data-menu="home" width="45px" title="Kembali ke Menu Utama">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-box">
+            <h2>Instrumental Lagu: Tanah Airku</h2>
+            
+            <div class="video-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/uMURsCXEnGA" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+        
+    </div>
+
+    <div id="popup-profil">
+        <div class="popup-content">
+            <h3>PROFIL PENGEMBANG</h3>
+            <img src="media/profil_foto_asli.jpg" alt="Foto Profil" class="profil-img"> 
+            <div class="profil-detail">
+                <p><strong>Nama:</strong>Hikmatullah, S.Pd</p>
+                <p><strong>Jabatan:</strong>Guru Kelas</p>
+                <p><strong>Institusi:</strong>SD Negeri Ranca Tales</p>
+                <p><strong>LPTK:</strong>Universitas Islam 45</p>
+                <p><strong>Jurusan:</strong>PGSD</p>
+                <p><strong>Tahap:</strong> 3 (TIGA) </p>
+                </div>
+            <button id="popup-close">Oke, Saya Mengerti</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // === Elemen Pop-up ===
+            const btnProfil = document.querySelector('.btn-profil');
+            const popupProfil = document.getElementById('popup-profil');
+            const btnTutupProfil = document.getElementById('popup-close');
+            
+            // === Elemen Navigasi Top Bar ===
+            const btnPlayHome = document.querySelector('.btn-play'); 
+            
+            // --------------------------------------------------------------------
+            // 1. LOGIKA POPUP PROFIL PENGEMBANG
+            // --------------------------------------------------------------------
+            btnProfil.addEventListener('click', () => {
+                popupProfil.style.display = 'flex';
+            });
+            
+            const closePopup = () => {
+                 // Menghilangkan display setelah animasi berakhir
+                popupProfil.style.display = 'none';
+                // Reset animasi pop-up agar bisa di-trigger lagi
+                popupProfil.querySelector('.popup-content').style.animation = 'popUp 0.3s forwards'; 
+            };
+
+            btnTutupProfil.addEventListener('click', closePopup);
+            
+            // Logika penutup popup saat klik di luar area konten
+            window.addEventListener('click', (event) => {
+                if (event.target === popupProfil) {
+                    closePopup();
+                }
+            });
+
+            // --------------------------------------------------------------------
+            // 2. LOGIKA TOMBOL HOME
+            // --------------------------------------------------------------------
+            btnPlayHome.addEventListener('click', () => {
+                // Tombol ini kembali ke menu.html (halaman menu utama)
+                
+                    window.location.href = 'menu.html'; 
+                
+            });
+        });
+    </script>
+</body>
+</html>

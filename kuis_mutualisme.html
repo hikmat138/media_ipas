@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Kelompok 1: Mutualisme | IPAS Kelas 3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --primary-color: #27ae60; /* Mutualisme Color (Hijau) */
+            --secondary-color: #f1c40f; 
+            --accent-color: #c0392b; /* Merah Marun */
+            --nav-color: #3498db;
+            --text-color-dark: #1c1c1c;
+            --bg-overlay-color: rgba(255, 255, 255, 0.95);
+            --header-height: 65px; 
+        }
+
+        body {
+            font-family: 'Balsamiq Sans', cursive, sans-serif; 
+            margin: 0; padding: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; 
+            background-image: url('media/bg_ipas.jpg'); 
+            background-size: cover; background-attachment: fixed; background-position: center;
+        }
+
+        .container {
+            width: 95%; max-width: 1200px; text-align: center; padding: 10px 0 30px 0; 
+        }
+
+        .top-bar {
+            position: sticky; top: 0; left: 0; width: 100%; height: var(--header-height); padding: 0; z-index: 1000; display: flex; justify-content: flex-start; align-items: center;
+        }
+        
+        .content-box {
+            background-color: var(--bg-overlay-color); padding: 30px 40px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+            border: 5px solid var(--primary-color); width: 100%; margin-bottom: 30px; 
+        }
+
+        .content-box h2 {
+            font-family: 'Chewy', cursive, sans-serif; font-size: 2.5em; color: var(--primary-color); margin: 0 0 10px 0; text-shadow: 3px 3px 0 var(--secondary-color);
+        }
+        
+        .game-area {
+            display: flex; justify-content: space-between; align-items: flex-start; margin-top: 30px;
+        }
+
+        .drag-source {
+            width: 70%; background-color: #f5f5f5; padding: 15px; border-radius: 10px; border: 2px dashed #999; min-height: 400px; display: flex; flex-wrap: wrap; justify-content: center;
+        }
+
+        .drop-target {
+            width: 25%; background-color: #e6ffe6; padding: 20px; border-radius: 15px; border: 4px solid var(--primary-color); min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+        }
+        
+        .drop-target h3 {
+            width: 100%; margin-top: 0; color: var(--primary-color); font-family: 'Chewy', cursive, sans-serif; font-size: 1.8em; text-shadow: 1px 1px 0 #fff;
+        }
+
+        .drop-target p {
+            margin-bottom: 20px;
+        }
+
+        .dropped-items-container {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+        }
+        
+        /* ITEM & LABEL STYLING - MODIFIKASI UNTUK LABEL AWAL */
+        .item {
+            width: 100px; 
+            height: 120px; /* Ditingkatkan untuk menampung gambar dan label */
+            margin: 8px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: grab;
+            transition: transform 0.2s, opacity 0.2s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column; /* Gambar dan label tersusun ke bawah */
+            align-items: center;
+            justify-content: flex-start; 
+            position: relative;
+            background-color: #fff;
+            padding-top: 5px;
+        }
+
+        .item img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        /* Gaya untuk item yang sudah berada di kotak drop target */
+        .item.has-label {
+            box-shadow: none;
+            background-color: transparent;
+            margin: 10px 5px; 
+        }
+        
+        .item.has-label img {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .item-label {
+            /* Gaya untuk label yang muncul di bawah gambar */
+            font-size: 0.75em;
+            font-weight: 700;
+            color: var(--text-color-dark);
+            margin-top: 5px;
+            text-align: center;
+            line-height: 1.2;
+            padding: 0 2px;
+            max-width: 95px;
+            transition: color 0.3s; /* Transisi warna untuk hasil check */
+        }
+
+        /* Drag and Drop Visuals */
+        .dragging {
+            opacity: 0.5;
+            transform: scale(1.05);
+        }
+
+        .drag-over {
+            border-color: var(--secondary-color) !important;
+            box-shadow: 0 0 15px var(--secondary-color);
+        }
+
+        /* Tombol Controls */
+        .btn-controls {
+            display: flex; gap: 20px; justify-content: center; margin-top: 25px;
+        }
+
+        .btn-game, .btn-menu { 
+            padding: 15px 30px; color: white; border: 5px solid var(--secondary-color); border-radius: 15px; 
+            font-family: 'Chewy', cursive, sans-serif; font-size: 1.5em; cursor: pointer; 
+            box-shadow: 0 5px 0 var(--secondary-color), 0 7px 10px rgba(0, 0, 0, 0.4); 
+            transition: all 0.15s ease-out; text-decoration: none; display: inline-block; 
+        }
+        
+        .btn-check { background-color: var(--accent-color); }
+        .btn-reset { background-color: var(--nav-color); }
+        .btn-menu { background-color: var(--primary-color); margin-top: 25px; }
+
+        .btn-game:hover, .btn-menu:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--secondary-color), 0 9px 12px rgba(0, 0, 0, 0.5); }
+        .btn-game:active, .btn-menu:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--secondary-color), 0 5px 8px rgba(0, 0, 0, 0.4); }
+
+    </style>
+</head>
+<body>
+    
+    <div class="top-bar"></div>
+
+    <div class="container">
+        <div class="content-box">
+            <h2>KELOMPOK 1: Simbiosis Mutualisme 🤝</h2>
+            
+            <p style="font-size: 1.1em; font-weight: 500;">
+                Dari 18 gambar di bawah, temukan dan Seret (Drag) **lima (5) contoh Simbiosis Mutualisme** ke dalam kotak hijau!
+            </p>
+            
+            <div class="game-area">
+                
+                <div class="drag-source" id="drag-container">
+                    <div class="item" data-type="mutualisme" draggable="true" data-label="Lebah & Bunga"><img src="media/lebah.jpg"></div>
+                    <div class="item" data-type="mutualisme" draggable="true" data-label="Kerbau & Burung Jalak"><img src="media/kerbau.jpg"></div>
+                    <div class="item" data-type="mutualisme" draggable="true" data-label="Semut & Kutu Daun"><img src="media/semut.jpg"></div>
+                    <div class="item" data-type="mutualisme" draggable="true" data-label="Buaya & Burung Plover"><img src="media/buaya.jpg"></div>
+                    <div class="item" data-type="mutualisme" draggable="true" data-label="Rayap & Protozoa"><img src="media/rayap.jpg"></div>
+                    <div class="item" data-type="mutualisme" draggable="true" data-label="Ikan Badut & Anemon"><img src="media/ikan.jpg"></div>
+
+                    <div class="item" data-type="komensalisme" draggable="true" data-label="Anggrek & Pohon Mangga"><img src="media/angrek.jpg"></div>
+                    <div class="item" data-type="komensalisme" draggable="true" data-label="Hiu & Ikan Remora"><img src="media/hiu.jpg"></div>
+                    <div class="item" data-type="komensalisme" draggable="true" data-label="Udang & Timun Laut"><img src="media/udang.jpg"></div>
+                    <div class="item" data-type="komensalisme" draggable="true" data-label="Tumbuhan Paku dan Pohon"><img src="media/paku.jpg"></div>
+                    <div class="item" data-type="komensalisme" draggable="true" data-label="Kumbang dan Daun"><img src="media/kumbang.avif"></div>
+                    <div class="item" data-type="komensalisme" draggable="true" data-label="Laba & Pohon"><img src="media/laba.avif"></div>
+                    
+                    <div class="item" data-type="parasitisme" draggable="true" data-label="Kutu & Anjing"><img src="media/kutu.jpg"></div>
+                    <div class="item" data-type="parasitisme" draggable="true" data-label="Benalu & Pohon"><img src="media/benalu.jpg"></div>
+                    <div class="item" data-type="parasitisme" draggable="true" data-label="Cacing & Manusia"><img src="media/cacing.jpg"></div>
+                    <div class="item" data-type="parasitisme" draggable="true" data-label="Nyamuk & Manusia"><img src="media/nyamuk.jpg"></div>
+                    <div class="item" data-type="parasitisme" draggable="true" data-label="Tali Putri & Tanaman"><img src="media/taliputri.jpg"></div>
+                    <div class="item" data-type="parasitisme" draggable="true" data-label="Kutu Daun & Tanaman"><img src="media/kutudaun.jpg"></div>
+                </div>
+                
+                <div class="drop-target" id="drop-target">
+                    <h3>Kotak Simbiosis Mutualisme</h3>
+                    <p style="font-size: 0.9em; font-style: italic; color: #666; width: 100%;">Seret 5 gambar di sini</p>
+                    <div class="dropped-items-container"></div>
+                </div>
+            </div>
+
+            <div class="btn-controls">
+                <button class="btn-game btn-check" onclick="checkAnswers('mutualisme')">Selesai & Cek Hasil</button>
+                <button class="btn-game btn-reset" onclick="resetGame()">Coba Lagi</button>
+            </div>
+            
+            <a href="kuis.html" class="btn-menu" title="Kembali ke Menu Pilihan Kuis">
+                << Kembali ke Menu Game
+            </a>
+
+            <p style="margin-top: 30px; font-weight: 700; color: var(--accent-color);">
+                Setelah selesai, kelompok segera bersiap untuk mempresentasikan 5 contoh Mutualisme tersebut dan menjelaskan alasannya di depan kelas! 📢
+            </p>
+            
+        </div>
+        
+    </div>
+
+    <script>
+        // INISIALISASI
+        const dragContainer = document.getElementById('drag-container');
+        const dropTarget = document.getElementById('drop-target');
+        const droppedContainer = dropTarget.querySelector('.dropped-items-container');
+        const targetType = 'mutualisme'; 
+        const allItems = document.querySelectorAll('.item');
+        let draggedItem = null;
+        
+        // Tentukan nilai warna JS
+        const PRIMARY_COLOR = '#27ae60'; // Hijau Mutualisme
+        const ACCENT_COLOR = '#c0392b';  // Merah Marun
+        const DEFAULT_TEXT_COLOR = '#1c1c1c'; // Warna default teks
+
+        // Audio Effects (Pastikan file ada di media/)
+        const correctAudio = new Audio('media/media_benar.mp3');
+        const wrongAudio = new Audio('media/media_salah.mp3');
+
+        // 1. Fungsi untuk mengacak urutan item
+        function shuffleItems(container) {
+            const children = Array.from(container.children);
+            for (let i = children.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [children[i], children[j]] = [children[j], children[i]]; // Swap
+            }
+            children.forEach(child => container.appendChild(child));
+        }
+
+        // 2. Setup Drag and Drop (MEMBUAT LABEL AWAL DI SINI)
+        function setupDragListeners() {
+            allItems.forEach(item => {
+                // Reset visual dan status
+                item.setAttribute('draggable', 'true');
+                item.style.cursor = 'grab';
+                
+                // Hapus border pada gambar (jika ada)
+                const img = item.querySelector('img');
+                if(img) img.style.border = 'none';
+                
+                item.classList.remove('has-label');
+                
+                // --- MODIFIKASI: Pastikan label dibuat dan ada di setiap item AWAL ---
+                let label = item.querySelector('.item-label');
+                
+                if (!label) {
+                    // Buat label baru jika belum ada
+                    const labelText = item.dataset.label;
+                    const labelDiv = document.createElement('div');
+                    labelDiv.classList.add('item-label');
+                    labelDiv.textContent = labelText;
+                    item.appendChild(labelDiv);
+                } else {
+                    // Jika sudah ada (saat reset), reset warnanya
+                    label.style.color = DEFAULT_TEXT_COLOR; 
+                }
+                // -----------------------------------------------------------------------
+
+                item.addEventListener('dragstart', (e) => {
+                    draggedItem = item;
+                    setTimeout(() => { item.classList.add('dragging'); }, 0);
+                });
+
+                item.addEventListener('dragend', () => {
+                    if (draggedItem) draggedItem.classList.remove('dragging');
+                    draggedItem = null;
+                });
+            });
+        }
+        setupDragListeners(); // Panggil di awal agar label langsung muncul
+
+        dropTarget.addEventListener('dragover', (e) => {
+            e.preventDefault(); 
+            dropTarget.classList.add('drag-over');
+        });
+
+        dropTarget.addEventListener('dragleave', () => {
+            dropTarget.classList.remove('drag-over');
+        });
+
+        dropTarget.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropTarget.classList.remove('drag-over');
+            
+            if (draggedItem) {
+                // Hapus placeholder jika ada item yang dimasukkan
+                const placeholder = dropTarget.querySelector('p');
+                if (placeholder) placeholder.remove();
+
+                droppedContainer.appendChild(draggedItem);
+                
+                // Tambahkan class penanda item di kotak drop
+                draggedItem.classList.add('has-label');
+
+                // Menonaktifkan drag dari item yang sudah di drop
+                draggedItem.setAttribute('draggable', 'false'); 
+                draggedItem.style.cursor = 'default';
+            }
+        });
+        
+        // 3. Fungsi Cek Jawaban (Menggunakan SweetAlert2)
+        function checkAnswers(correctType) {
+            const droppedItems = droppedContainer.querySelectorAll('.item');
+            let correctCount = 0;
+            const requiredCount = 5;
+
+            if (droppedItems.length !== requiredCount) {
+                 Swal.fire({
+                    icon: 'warning',
+                    title: 'Jumlah Tidak Sesuai!',
+                    text: `Anda harus memasukkan tepat ${requiredCount} gambar. Saat ini baru ada ${droppedItems.length} gambar.`,
+                    confirmButtonText: 'OK',
+                 });
+                 return; 
+            }
+
+            // Hitung dan beri tanda pada jawaban
+            droppedItems.forEach(item => {
+                const img = item.querySelector('img');
+                const label = item.querySelector('.item-label');
+                
+                if (item.dataset.type === correctType) {
+                    correctCount++;
+                    img.style.border = `3px solid ${PRIMARY_COLOR}`; 
+                    if (label) label.style.color = PRIMARY_COLOR;
+                } else {
+                    img.style.border = `3px solid ${ACCENT_COLOR}`; 
+                    if (label) label.style.color = ACCENT_COLOR;
+                }
+            });
+
+            // Tampilkan hasil menggunakan SweetAlert2
+            if (correctCount === requiredCount) {
+                correctAudio.play();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'HEBAT! 🥳',
+                    html: `Semua **5 Jawaban Benar!** Kelompok kalian siap mempresentasikan hasil ini di depan kelas!`,
+                    confirmButtonText: 'Siap Presentasi!',
+                });
+            } else {
+                wrongAudio.play();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kurang Tepat! 🧐',
+                    html: `Hanya **${correctCount}** jawaban yang benar dari 5 yang dimasukkan.<br>Perhatikan gambar yang bergaris merah. Silakan diskusikan dan coba lagi!`,
+                    confirmButtonText: 'Coba Lagi',
+                });
+            }
+        }
+
+        // 4. Fungsi Coba Lagi (Reset Game)
+        function resetGame() {
+            // Pindahkan semua item kembali ke dragContainer
+            allItems.forEach(item => {
+                dragContainer.appendChild(item);
+            });
+            
+            // Atur ulang tampilan dan status item (termasuk reset label)
+            setupDragListeners();
+            
+            shuffleItems(dragContainer);
+
+            // Tambahkan kembali placeholder jika belum ada
+            if (!dropTarget.querySelector('p')) {
+                const placeholder = document.createElement('p');
+                placeholder.style.cssText = 'font-size: 0.9em; font-style: italic; color: #666; width: 100%;';
+                placeholder.textContent = 'Seret 5 gambar di sini';
+                dropTarget.insertBefore(placeholder, droppedContainer);
+            }
+            
+            Swal.fire({
+                icon: 'info',
+                title: 'Diulang!',
+                text: 'Semua gambar telah dikembalikan. Silakan coba lagi dengan diskusi yang lebih baik!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+        
+        // Inisialisasi awal (mengacak item)
+        shuffleItems(dragContainer);
+    </script>
+</body>
+</html>

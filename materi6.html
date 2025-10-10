@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refleksi dan Kesimpulan | IPAS Kelas 3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #27ae60; /* Hijau */
+            --secondary-color: #f1c40f; /* Kuning */
+            --accent-color: #c0392b; /* Merah Marun */
+            --nav-color: #3498db; /* Biru */
+            --text-color-dark: #1c1c1c;
+            --bg-overlay-color: rgba(255, 255, 255, 0.9);
+            --header-height: 65px; 
+        }
+
+        body {
+            font-family: 'Balsamiq Sans', cursive, sans-serif; 
+            margin: 0;
+            padding: 0;
+            min-height: 100vh; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; 
+            background-image: url('media/bg_ipas.jpg'); 
+            background-size: cover;
+            background-attachment: fixed; 
+            background-position: center;
+        }
+
+        .container {
+            width: 90%; 
+            max-width: 900px; 
+            text-align: center;
+            padding: 10px 0 30px 0; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; 
+        }
+
+        /* Top Bar & Pop-up (Tetap) */
+        .top-bar {
+            position: sticky; top: 0; left: 0; width: 100%; height: var(--header-height); padding: 10px 20px; z-index: 1000; display: flex; justify-content: space-between; align-items: center;
+        }
+        .top-right-buttons { display: flex; margin-right: 30px; gap: 20px; align-items: center; }
+        .nav-img { cursor: pointer; transition: transform 0.2s; border-radius: 50%; background-color: #ffffff; padding: 5px; border: none; width: 45px; height: 45px; filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.5)); }
+        .nav-img:hover { transform: scale(1.1); filter: drop-shadow(0 0 8px var(--secondary-color)); }
+
+        /* KOTAK KONTEN UTAMA */
+        .content-box {
+            background-color: var(--bg-overlay-color);
+            padding: 30px 40px; 
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: left; /* Teks di dalam konten rata kiri */
+            border: 5px solid var(--primary-color); 
+            width: 100%;
+            margin-bottom: 30px; 
+        }
+
+        .content-box h2 {
+            font-family: 'Chewy', cursive, sans-serif;
+            font-size: 2.8em; 
+            color: var(--primary-color); /* Warna Judul Utama Hijau */
+            margin: 0 0 15px 0; 
+            text-shadow: 3px 3px 0 var(--secondary-color);
+            text-align: center; /* Judul tetap di tengah */
+        }
+        
+        .content-section h3 {
+            font-family: 'Balsamiq Sans', cursive, sans-serif;
+            font-size: 1.8em;
+            color: var(--nav-color); /* Biru */
+            margin: 25px 0 10px 0;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 5px;
+        }
+
+        .content-section p, .content-section ul {
+            font-size: 1.15em;
+            line-height: 1.6;
+            color: var(--text-color-dark);
+            margin-bottom: 20px;
+        }
+        
+        .content-section li {
+             margin-bottom: 10px;
+        }
+        
+        strong {
+            color: var(--accent-color); /* Merah Marun untuk penekanan */
+        }
+
+        /* Tombol Navigasi Bawah */
+        .navigation-controls {
+            display: flex; 
+            justify-content: flex-start; /* Hanya tombol "Kembali" di kiri */
+            width: 100%; 
+            max-width: 900px; 
+            margin-top: 40px;
+        }
+        .btn-nav {
+            display: inline-block; padding: 12px 25px; text-decoration: none; font-family: 'Chewy', cursive, sans-serif; font-size: 1.3em; color: white; border-radius: 15px; border: 5px solid var(--secondary-color); box-shadow: 0 5px 0 var(--secondary-color), 0 7px 10px rgba(0, 0, 0, 0.4); transition: all 0.15s ease-out; text-shadow: 2px 2px 0 var(--text-color-dark); text-align: center; background-color: #6c757d;
+        }
+        .btn-nav:hover { background-color: #5a6268; transform: translateY(-2px); box-shadow: 0 7px 0 var(--secondary-color), 0 9px 12px rgba(0, 0, 0, 0.5); }
+        .btn-nav:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--secondary-color), 0 5px 8px rgba(0, 0, 0, 0.4); }
+
+        /* POPUP PROFIL (Tetap) */
+        #popup-profil { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .popup-content { background: linear-gradient(135deg, #f0f3f5, #ffffff); padding: 30px 40px; border-radius: 25px; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); max-width: 400px; text-align: center; border: 7px solid var(--primary-color); font-family: 'Balsamiq Sans', cursive, sans-serif; }
+        #popup-profil h3 { color: var(--accent-color); font-family: 'Chewy', cursive, sans-serif; font-size: 2.2em; margin: 0 0 10px 0; text-shadow: 2px 2px 0 var(--secondary-color); }
+        .profil-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid var(--secondary-color); margin: 10px auto 20px; }
+        .profil-detail p { font-size: 1.05em; color: #34495e; margin: 5px 0; font-weight: 700; line-height: 1.4; text-align: left; }
+        .profil-detail strong { color: var(--primary-color); display: inline-block; min-width: 100px; text-align: right; margin-right: 5px; }
+        #popup-close { margin-top: 30px; padding: 12px 30px; border: none; border-radius: 12px; background-color: var(--primary-color); color: white; font-weight: 900; cursor: pointer; }
+    </style>
+</head>
+<body>
+    
+    <div class="top-bar">
+        <div class="logo">
+        </div>
+        <div class="top-right-buttons" id="nav-buttons">
+            <img src="media/profil.jpg" alt="profil" class="nav-img btn-profil" data-menu="profil" title="Profil Pengembang">
+            <img src="media/home.png" alt="home" class="nav-img btn-play" data-menu="home" title="Kembali ke Menu Utama">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-box">
+            <h2>Refleksi dan Kesimpulan</h2>
+            
+            <div class="content-section">
+                <h3>Apa yang Sudah Kita Pelajari? 🤔</h3>
+                <p>Anak-anak hebat, setelah menyelesaikan semua materi dan kuis, kita telah belajar bahwa makhluk hidup di sekitar kita tidak pernah hidup sendiri. Mereka **saling membutuhkan** dan berinteraksi dalam berbagai cara. Interaksi ini kita sebut sebagai **Simbiosis**.</p>
+                <p>Ada tiga jenis Simbiosis utama yang sudah kita kenal:</p>
+                
+                <ul>
+                    <li><strong>Simbiosis Mutualisme:</strong> Hubungan yang saling **menguntungkan** kedua belah pihak. Contoh: Kupu-kupu mendapat nektar, bunga terbantu penyerbukannya.</li>
+                    <li><strong>Simbiosis Komensalisme:</strong> Hubungan di mana satu pihak **untung** dan pihak lain **tidak untung dan tidak rugi** (netral). Contoh: Ikan remora mendapat sisa makanan, ikan hiu tidak terganggu.</li>
+                    <li><strong>Simbiosis Parasitisme:</strong> Hubungan di mana satu pihak **untung (parasit)** dan pihak lain **rugi (inang)**. Contoh: Benalu mendapat makanan, pohon inang kekurangan zat makanan.</li>
+                </ul>
+            </div>
+            
+            <div class="content-section">
+                <h3>Pesan Moral dan Kesimpulan Akhir ✨</h3>
+                <p>Pelajaran tentang simbiosis ini memberikan kita pelajaran penting dalam kehidupan sehari-hari:</p>
+                
+                <ol>
+                    <li><strong>Hidup adalah Saling Membantu (Mutualisme):</strong> Seperti kupu-kupu dan bunga, ketika kita saling membantu, kedua belah pihak akan merasakan manfaatnya. Belajarlah untuk bekerja sama!</li>
+                    <li><strong>Toleransi dan Tidak Merugikan (Komensalisme):</strong> Kadang kita mendapat bantuan, tetapi kita harus memastikan bahwa bantuan kita tidak menyusahkan orang lain.</li>
+                    <li><strong>Hindari Merugikan Orang Lain (Parasitisme):</strong> Kita harus menghindari perilaku yang hanya menguntungkan diri sendiri namun merugikan teman atau orang di sekitar kita. Hubungan seperti ini tidak sehat dan akan merusak.</li>
+                </ol>
+                
+                <p style="text-align: center; font-style: italic; font-weight: 700; margin-top: 30px;">
+                    Dengan memahami Simbiosis, kita jadi mengerti bahwa **keseimbangan alam** dan **keseimbangan dalam pertemanan** sangat penting!
+                </p>
+            </div>
+
+            </div>
+        
+        <div class="navigation-controls">
+            <a href="materi5_kuis.html" class="btn-nav">
+                &lt;&lt; Kembali ke Menu Kuis
+            </a>
+            
+            </div>
+    </div>
+
+    <div id="popup-profil">
+        <div class="popup-content">
+            <h3>PROFIL PENGEMBANG</h3>
+            <img src="media/profil_foto_asli.jpg" alt="Foto Profil" class="profil-img"> 
+            <div class="profil-detail">
+                <p><strong>Nama:</strong>Hikmatullah, S.Pd</p>
+                <p><strong>Jabatan:</strong>Guru Kelas</p>
+                <p><strong>Institusi:</strong>SD Negeri Ranca Tales</p>
+                <p><strong>LPTK:</strong>Universitas Islam 45</p>
+                <p><strong>Jurusan:</strong>PGSD</p>
+                <p><strong>Tahap:</strong> 3 (TIGA) </p>
+                </div>
+            <button id="popup-close">Oke, Saya Mengerti</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnProfil = document.querySelector('.btn-profil');
+            const popupProfil = document.getElementById('popup-profil');
+            const btnTutupProfil = document.getElementById('popup-close');
+            const btnPlayHome = document.querySelector('.btn-play'); 
+            
+            btnProfil.addEventListener('click', () => { popupProfil.style.display = 'flex'; });
+            const closePopup = () => { popupProfil.style.display = 'none'; };
+            btnTutupProfil.addEventListener('click', closePopup);
+            window.addEventListener('click', (event) => { if (event.target === popupProfil) { closePopup(); } });
+
+            btnPlayHome.addEventListener('click', () => { 
+                
+                    window.location.href = 'menu.html'; 
+                
+            });
+        });
+    </script>
+</body>
+</html>

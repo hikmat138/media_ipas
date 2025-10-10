@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMES MEMORI ANGKA | Kelas 3 IPAS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --primary-color: #2980b9; /* Biru Tua */
+            --secondary-color: #34495e; /* Teks/Border Gelap */
+            --accent-color: #e67e22; /* Oranye */
+            --fail-color: #e74c3c; /* Merah untuk Gagal */
+            --success-color: #2ecc71; /* Hijau untuk Match */
+            --bg-overlay-color: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            font-family: 'Balsamiq Sans', cursive, sans-serif; 
+            margin: 0; padding: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; 
+            background-image: url('media/bg_ipas.jpg'); 
+            background-size: cover; background-attachment: fixed; background-position: center;
+        }
+
+        .container {
+            width: 95%; max-width: 800px; text-align: center; padding: 30px 0; 
+        }
+
+        .content-box {
+            background-color: var(--bg-overlay-color); padding: 30px 40px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+            border: 5px solid var(--primary-color); width: 100%; 
+        }
+
+        .content-box h1 {
+            font-family: 'Chewy', cursive, sans-serif; font-size: 3em; color: var(--primary-color); margin-bottom: 5px; text-shadow: 3px 3px 0 var(--secondary-color);
+        }
+
+        .instructions {
+            background-color: #f1c40f; /* Kuning */
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+        
+        /* --- Game Board (4x4) --- */
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px;
+            margin: 20px auto;
+            max-width: 500px;
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; 
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* PERHATIAN: Hapus class 'flip' dari elemen saat buildBoard di JS */
+        /* Kartu Tertutup (DEFAULT) */
+        .card:not(.flip) {
+            transform: rotateY(0deg); /* Menjamin kartu tertutup saat load */
+        }
+
+        /* Kartu Terbuka (Flip) */
+        .card.flip {
+            transform: rotateY(180deg);
+            cursor: default;
+        }
+        
+        .card-face {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            backface-visibility: hidden;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 10px;
+            border: 3px solid var(--secondary-color);
+        }
+
+        .card-back {
+            background-color: var(--primary-color); 
+            transform: rotateY(0deg);
+            font-family: 'Chewy', cursive, sans-serif;
+            font-size: 2.5em; color: white;
+            text-shadow: 2px 2px 0 var(--secondary-color);
+        }
+
+        .card-front {
+            background-color: #fff;
+            transform: rotateY(180deg);
+            font-family: 'Chewy', cursive, sans-serif;
+            font-size: 3em; color: var(--primary-color);
+        }
+        
+        /* Kartu Match (Hijau) */
+        .card.match .card-back, .card.match .card-front {
+            background-color: var(--success-color); 
+            color: white; border-color: #1e8449;
+        }
+        
+        /* Kartu Salah (Merah) */
+        .card.incorrect .card-front {
+            background-color: var(--fail-color); 
+            color: white; border-color: var(--fail-color);
+        }
+
+        /* --- Tombol --- */
+        .btn-game {
+            padding: 15px 30px;
+            color: white;
+            border: 5px solid var(--secondary-color);
+            border-radius: 15px;
+            font-family: 'Chewy', cursive, sans-serif;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 5px 0 var(--secondary-color), 0 7px 10px rgba(0, 0, 0, 0.4);
+            transition: all 0.15s ease-out;
+            display: inline-block; 
+            margin: 10px;
+            background-color: var(--accent-color);
+        }
+        
+        .btn-game:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--secondary-color), 0 9px 12px rgba(0, 0, 0, 0.5); }
+        .btn-game:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--secondary-color), 0 5px 8px rgba(0, 0, 0, 0.4); }
+
+        .btn-reset {
+            background-color: var(--fail-color); /* Merah */
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="content-box">
+            <h1>GAMES MEMORI ANGKA 1️⃣6️⃣</h1>
+            <p class="instructions" id="instruction-text">
+                **PERHATIAN:** Klik tombol "Mulai Game" di bawah untuk melihat semua angka selama 15 detik!
+            </p>
+            
+            <div class="game-board" id="game-board">
+                </div>
+            
+            <div id="status-area" style="margin-top: 15px; font-weight: 700; font-size: 1.2em; color: var(--fail-color);"></div>
+
+            <div class="controls" style="margin-top: 30px;">
+                <button class="btn-game" id="btn-start-init" onclick="initializeGame()">Mulai Game</button> 
+                <button class="btn-game btn-reset" id="btn-reset" onclick="startGame(true)" style="display: none;">Mulai Ulang Game</button>
+            </div>
+
+
+            <a href="menu.html" class="btn-game" style="background-color: var(--primary-color); border-color: var(--secondary-color); margin-top: 25px; font-size: 1.2em;">
+                << Kembali ke Menu Utama
+            </a>
+            
+        </div>
+    </div>
+
+    <script>
+        const totalNumbers = 16;
+        const numberSequence = Array.from({length: totalNumbers}, (_, i) => i + 1);
+
+        const gameBoard = document.getElementById('game-board');
+        const instructionText = document.getElementById('instruction-text');
+        const statusArea = document.getElementById('status-area');
+        
+        // Ambil elemen tombol
+        const btnStartInit = document.getElementById('btn-start-init');
+        const btnReset = document.getElementById('btn-reset');
+        
+        let nextTarget = 1;
+        let totalFails = 0;
+        let lockBoard = true; // Board terkunci di awal (sebelum diklik Mulai)
+        let timerInterval = null; 
+        let previewTimeout = null; 
+
+        const PREVIEW_TIMEOUT = 15000; 
+        const FAIL_TIMEOUT = 1000; 
+
+        // Audio Effects (Pastikan file audio tersedia di folder 'media/')
+        const flipAudio = new Audio('media/hint.mp3'); 
+        const matchAudio = new Audio('media/media_benar.mp3'); 
+        const wrongAudio = new Audio('media/media_salah.mp3'); 
+        const winAudio = new Audio('media/media_sukses.mp3');
+        const countdownAudio = new Audio('media/kon.mp3'); 
+        const startAudio = new Audio('media/ps.mp3'); 
+        
+        let currentDeckOrder = [];
+
+        // 1. Fungsi Mengacak Array
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // 2. Fungsi Membuat Deck Kartu dan Membangun Board HTML
+        function buildBoard(deckData) {
+            let deck = deckData || shuffle([...numberSequence]);
+            currentDeckOrder = deck; 
+
+            gameBoard.innerHTML = '';
+            deck.forEach((numberValue) => {
+                const card = document.createElement('div');
+                card.classList.add('card'); // HILANGKAN class 'flip' di sini
+                card.dataset.value = numberValue;
+                card.addEventListener('click', flipCard);
+
+                card.innerHTML = `
+                    <div class="card-face card-front">${numberValue}</div>
+                    <div class="card-face card-back">?</div>
+                `;
+                gameBoard.appendChild(card);
+            });
+        }
+        
+        // 3. Fungsi Membalik Kartu
+        function flipCard(event) {
+            // Jika lockBoard = true (masa preview atau salah), klik tidak boleh terjadi
+            if (lockBoard) {
+                statusArea.textContent = '❌ Tunggu! Game belum dimulai atau masih masa hafalan!';
+                setTimeout(() => statusArea.textContent = '', 1500);
+                return;
+            }
+
+            const clickedCard = event.currentTarget;
+            if (clickedCard.classList.contains('flip')) return; 
+
+            clickedCard.classList.add('flip');
+            flipAudio.play();
+            
+            checkSequence(clickedCard);
+        }
+
+        // 4. Fungsi Cek Urutan Angka (Tetap)
+        function checkSequence(card) {
+            lockBoard = true; 
+            const cardValue = parseInt(card.dataset.value);
+
+            if (cardValue === nextTarget) {
+                // --- BENAR ---
+                card.classList.add('match');
+                card.removeEventListener('click', flipCard);
+                
+                setTimeout(() => {
+                    matchAudio.play();
+                }, 300); 
+                
+                nextTarget++;
+                
+                if (nextTarget > totalNumbers) {
+                    instructionText.innerHTML = `**Hebat!** Semua angka telah ditemukan!`;
+                    lockBoard = true; 
+                    
+                    // Hentikan semua timer dan audio saat pemain menang
+                    if (timerInterval) clearInterval(timerInterval);
+                    if (previewTimeout) clearTimeout(previewTimeout);
+                    countdownAudio.pause();
+                    countdownAudio.currentTime = 0; 
+
+                    setTimeout(showWinAlert, 500);
+                } else {
+                    instructionText.innerHTML = `✅ **BENAR!** Cari angka **${nextTarget}** sekarang.`;
+                    lockBoard = false; 
+                }
+
+            } else {
+                // --- SALAH! ---
+                totalFails++;
+                wrongAudio.play();
+                
+                // Tambahkan kelas incorrect ke kartu yang salah
+                card.classList.add('incorrect');
+                
+                setTimeout(() => {
+                    resetGameFailure(card); 
+                }, FAIL_TIMEOUT);
+            }
+        }
+        
+        // 5. FUNGSI RESET TOTAL SAAT GAGAL (Kartu ditutup semua)
+        function resetGameFailure(incorrectCard) {
+            const allCards = document.querySelectorAll('.card');
+            
+            allCards.forEach(card => {
+                // Semua kartu kembali tertutup
+                card.classList.remove('flip'); 
+                card.classList.remove('match'); 
+                card.classList.remove('incorrect');
+                card.addEventListener('click', flipCard); 
+            });
+            
+            nextTarget = 1;
+            lockBoard = false; // Buka lock setelah reset
+            instructionText.innerHTML = `💥 **SALAH!** Harus Ulang dari angka **1**. Kegagalan ke-${totalFails}.`;
+        }
+
+        // 6. Fungsi Menutup Kartu Setelah Preview (WAKTU HABIS)
+        function closeAllCards() {
+            // Hentikan hitungan mundur timer
+            if (timerInterval) clearInterval(timerInterval);
+            
+            // HENTIKAN PAKSA AUDIO COUNTDOWN
+            countdownAudio.pause();
+            countdownAudio.currentTime = 0; 
+            
+            // Pastikan semua kartu ditutup lagi (jika ada yang terbuka karena bug)
+            const allCards = document.querySelectorAll('.card');
+            allCards.forEach(card => {
+                card.classList.remove('flip');
+            });
+            
+            // --- EFEK SUARA WAKTU HABIS/MULAI GAME ---
+            startAudio.play();
+            
+            instructionText.innerHTML = `**GO!** Waktu habis. Cari angka **1** sekarang.`;
+            lockBoard = false; // Membuka kunci board agar bisa diklik
+        }
+
+        // 7. Fungsi Alert Menang (Tetap)
+        function showWinAlert() {
+            winAudio.play();
+            if (typeof Swal !== 'undefined') {
+                 Swal.fire({
+                    icon: 'success',
+                    title: 'FOKUS SUPER! 🎯',
+                    html: `Tim kalian berhasil menemukan semua angka (1-16) dengan total **${totalFails} kali gagal**!`,
+                    confirmButtonText: 'Luar Biasa!',
+                    customClass: {
+                        confirmButton: 'btn-game',
+                    }
+                });
+            } else {
+                alert(`SELAMAT! Tim kalian berhasil menemukan semua angka (1-16) dengan ${totalFails} kali gagal!`);
+            }
+        }
+
+        /**
+         * FUNGSI PREPARE BOARD: Dipanggil saat DOM siap. Kartu dibuat & tertutup.
+         */
+        function prepareBoard() {
+            // Hentikan semua timer lama jika ada
+            if (timerInterval) clearInterval(timerInterval);
+            if (previewTimeout) clearTimeout(previewTimeout);
+            
+            // Kartu dibuat TERTUTUP (tanpa class 'flip' di buildBoard)
+            buildBoard(shuffle([...numberSequence])); 
+            
+            // Board harus terkunci di awal
+            lockBoard = true;
+            
+            // Atur tampilan tombol awal
+            if (btnStartInit) btnStartInit.style.display = 'inline-block';
+            if (btnReset) btnReset.style.display = 'none';
+        }
+        
+        /**
+         * FUNGSI INITIALIZE: Dipanggil saat tombol "Mulai Game" diklik (Interaksi Pertama)
+         */
+        function initializeGame() {
+            if (btnStartInit) btnStartInit.style.display = 'none';
+            if (btnReset) btnReset.style.display = 'inline-block';
+            // Panggil startGame, isNewGame=false agar menggunakan deck yang sudah disiapkan/tertutup
+            startGame(false); 
+        }
+
+        
+        // 8. Fungsi Mulai Game (Inisialisasi & Reset)
+        function startGame(isNewGame = false) {
+            totalFails = 0;
+            nextTarget = 1;
+            lockBoard = true; // Kunci board selama masa preview
+            statusArea.textContent = '';
+            
+            // Bersihkan timer dan timeout lama
+            if (timerInterval) clearInterval(timerInterval);
+            if (previewTimeout) clearTimeout(previewTimeout);
+
+            // HENTIKAN PAKSA AUDIO COUNTDOWN
+            countdownAudio.pause();
+            countdownAudio.currentTime = 0; 
+
+            if (isNewGame) {
+                 // Mulai Ulang: Acak ulang dan buat kartu baru (tertutup)
+                 buildBoard(shuffle([...numberSequence])); 
+            } else {
+                 // Mulai: Gunakan kartu yang sudah ada (tertutup)
+                 // Jika dari tombol initializeGame, kartu sudah tertutup
+            }
+            
+            // --- MULAI MASA PREVIEW (BUKA KARTU) ---
+            const allCards = document.querySelectorAll('.card');
+            allCards.forEach(card => card.classList.add('flip')); // BUKA KARTU UNTUK DIHAFAL
+            
+            instructionText.innerHTML = `**PERHATIAN:** Semua angka terbuka! Lihat angka **1** sampai **16** selama **${PREVIEW_TIMEOUT/1000} detik**!`;
+
+            // Atur hitungan mundur (Interval)
+            let countdown = PREVIEW_TIMEOUT / 1000;
+            timerInterval = setInterval(() => {
+                countdown--;
+                
+                // Suara countdown berbunyi di 3 detik terakhir
+                if (countdown === 14) {
+                    countdownAudio.play(); 
+                }
+                
+                if (countdown >= 0) {
+                    instructionText.innerHTML = `**PERHATIAN:** Semua angka terbuka! Lihat angka **1** sampai **16** (Tersisa: ${countdown} detik)`;
+                }
+            }, 1000);
+            
+            // Setelah waktu habis (Timeout), tutup semua kartu dan buka lock
+            previewTimeout = setTimeout(() => {
+                closeAllCards(); // Di sini kartu akan ditutup, timer dibersihkan, dan lockBoard = false
+            }, PREVIEW_TIMEOUT);
+        }
+        
+        // Panggil prepareBoard saat DOM selesai dimuat
+        document.addEventListener('DOMContentLoaded', prepareBoard);
+    </script>
+</body>
+</html>

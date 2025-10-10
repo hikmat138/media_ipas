@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Pembelajaran | IPAS Kelas 3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variabel Warna Disesuaikan */
+        :root {
+            --primary-color: #27ae60; /* Hijau Solid */
+            --secondary-color: #f1c40f; /* Kuning Cerah (untuk shadow) */
+            --accent-color: #c0392b; /* Merah Solid */
+            --text-outline: #ffffff; /* Putih (Warna Outline yang Sangat Kontras) */
+            --text-color-dark: #1c1c1c; /* Hitam Solid (Warna Teks Utama) */
+            --bg-overlay-color: rgba(255, 255, 255, 0.9); /* Transparansi Putih untuk Konten Menu */
+        }
+
+        /* Gaya Dasar */
+        body {
+            font-family: 'Balsamiq Sans', cursive, sans-serif; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh; 
+            justify-content: center;
+            
+            /* --- PENGATURAN BACKGROUND IMAGE --- */
+            background-image: url('media/bg_ipas.jpg'); 
+            background-size: cover;
+            background-attachment: fixed; 
+            background-position: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            text-align: center;
+            padding: 20px;
+            margin-top: 0; 
+        }
+
+        /* ---------------------------------------------------------------------------------- */
+        /* --- TOP BAR (Tetap) --- */
+        /* ---------------------------------------------------------------------------------- */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: transparent; 
+            padding: 10px 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end; 
+            align-items: center;
+        }
+
+        .top-right-buttons {
+            display: flex;
+            margin-right: 30px; 
+            gap: 20px;
+            align-items: center;
+        }
+
+        .top-right-buttons img {
+            cursor: pointer;
+            transition: transform 0.2s;
+            border-radius: 50%; 
+            background-color: #ffffff; 
+            padding: 5px; 
+            border: none; 
+            width: 45px;
+            height: 45px;
+            filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.5));
+        }
+
+        .top-right-buttons img:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px var(--secondary-color)); 
+        }
+
+        /* ---------------------------------------------------------------------------------- */
+        /* --- MENU UTAMA HORIZONTAL (Perubahan untuk layout 3x3) --- */
+        /* ---------------------------------------------------------------------------------- */
+        .menu-wrapper {
+            background-color: transparent;
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 900px; 
+        }
+
+        .judul-game {
+            font-size: 60px; 
+            font-weight: 1000;
+            color: #ffffff;
+            margin-bottom: 30px; 
+            text-shadow: 3px 3px 3px #1e3a25;
+            font-family: 'Chewy', cursive, sans-serif; /* Pastikan judul menggunakan font Chewy */
+        }
+
+        .menu-horizontal {
+            display: flex;
+            justify-content: center;
+            /* *** PENTING: Batasi lebar maksimum agar 3 item muat dan sisanya turun *** */
+            max-width: 500px; 
+            margin: 0 auto;
+            gap: 20px; /* Kurangi sedikit gap agar 3 item muat */
+            flex-wrap: wrap; 
+        }
+        
+        /* Hitungan: Jika lebar total 500px, 3 item dengan lebar 130px (390px) + 2 gap 20px (40px) = 430px. Ini akan muat. */
+        
+        .menu-item {
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            width: 130px; /* Lebar item dipertahankan */
+            background: #ffffff;
+            padding: 15px 10px;
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tambahkan shadow ringan pada kotak menu */
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Shadow lebih kuat saat hover */
+            border: none;
+        }
+
+        /* Perubahan pada Gambar Icon Menu */
+        .menu-item img {
+            width: 80px; 
+            height: 80px;
+            border-radius: 0; 
+            border: none;
+            padding: 0;
+            background-color: transparent;
+            box-shadow: none; 
+        }
+
+        .menu-item .label {
+            margin-top: 8px;
+            font-family: 'Balsamiq Sans', cursive, sans-serif;
+            font-weight: 900;
+            font-size: 1.1em;
+            color: var(--accent-color); 
+            text-shadow: 1px 1px 0 var(--secondary-color), -1px -1px 0 var(--secondary-color);
+        }
+        
+        /* --- Bagian POPUP (Tidak berubah) --- */
+        #popup-profil {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75); 
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .popup-content {
+            background: linear-gradient(135deg, #f0f3f5, #ffffff);
+            padding: 30px 40px;
+            border-radius: 25px; 
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            text-align: center;
+            border: 7px solid var(--primary-color); 
+            transform: scale(0.8);
+            animation: popUp 0.3s forwards;
+            font-family: 'Balsamiq Sans', cursive, sans-serif;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes popUp {
+            to { transform: scale(1); }
+        }
+
+        #popup-profil h3 {
+            color: var(--accent-color);
+            font-family: 'Chewy', cursive, sans-serif;
+            font-size: 2.2em;
+            margin: 0 0 10px 0;
+            text-shadow: 2px 2px 0 var(--secondary-color);
+        }
+
+        .profil-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--secondary-color);
+            margin: 10px auto 20px;
+        }
+
+        .profil-detail p {
+            font-size: 1.05em;
+            color: #34495e;
+            margin: 5px 0;
+            font-weight: 700;
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        .profil-detail strong {
+            color: var(--primary-color);
+            display: inline-block;
+            min-width: 100px; 
+            text-align: right;
+            margin-right: 5px;
+        }
+        
+        #popup-close {
+            margin-top: 30px;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 900;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        #popup-close:hover {
+            background-color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="top-bar">
+        <div class="top-right-buttons" id="nav-buttons">
+            <img src="media/profil.jpg" alt="profil" class="btn-profil" data-menu="profil" width="50px" title="Profil Pengembang">
+            <img src="media/keluar.png" alt="home" class="btn-play" data-menu="home" width="45px" title="Keluar ke Halaman Judul">
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="menu-wrapper">
+            <p class="judul-game">Pilih Kegiatan Belajar:</p>
+            <div class="menu-horizontal">
+                
+                <a href="tujuan.html" class="menu-item">
+                    <img src="media/tujuan.jpg" alt="Tujuan Pembelajaran">
+                    <p class="label">Tujuan</p>
+                </a>
+                
+                <a href="materi3.html" class="menu-item">
+                    <img src="media/materi.png" alt="Materi Simbiosis">
+                    <p class="label">Materi</p>
+                </a>
+                
+                <a href="musik.html" class="menu-item">
+                    <img src="media/musik.png" alt="Musik">
+                    <p class="label">Musik</p>
+                </a>
+                
+                <a href="video.html" class="menu-item">
+                    <img src="media/video.png" alt="Video">
+                    <p class="label">Video</p>
+                </a>
+
+                <a href="game.html" class="menu-item">
+                    <img src="media/game.png" alt="Game Interaktif">
+                    <p class="label">Game</p>
+                </a>
+                
+                <a href="kuis.html" class="menu-item">
+                    <img src="media/kuis.png" alt="Kuis">
+                    <p class="label">Kuis</p>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+
+    <div id="popup-profil">
+        <div class="popup-content">
+            <h3>PROFIL PENGEMBANG</h3>
+            <img src="media/profil_foto_asli.jpg" alt="Foto Profil" class="profil-img"> 
+            <div class="profil-detail">
+                <p><strong>Nama:</strong>Hikmatullah, S.Pd</p>
+                <p><strong>Jabatan:</strong>Guru Kelas</p>
+                <p><strong>Institusi:</strong>SD Negeri Ranca Tales</p>
+                <p><strong>LPTK:</strong>Universitas Islam 45</p>
+                <p><strong>Jurusan:</strong>PGSD</p>
+                <p><strong>Tahap:</strong> 3 (TIGA) </p>
+                </div>
+            <button id="popup-close">Oke, Saya Mengerti</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // === Elemen Pop-up ===
+            const btnProfil = document.querySelector('.btn-profil');
+            const popupProfil = document.getElementById('popup-profil');
+            const btnTutupProfil = document.getElementById('popup-close');
+            
+            // === Elemen Navigasi Top Bar ===
+            const btnPlayHome = document.querySelector('.btn-play'); 
+            
+            // --------------------------------------------------------------------
+            // 1. LOGIKA POPUP PROFIL PENGEMBANG
+            // --------------------------------------------------------------------
+            btnProfil.addEventListener('click', () => {
+                popupProfil.style.display = 'flex';
+            });
+            
+            const closePopup = () => {
+                popupProfil.style.display = 'none';
+            };
+
+            btnTutupProfil.addEventListener('click', closePopup);
+            
+            // Logika penutup popup saat klik di luar area konten
+            window.addEventListener('click', (event) => {
+                if (event.target === popupProfil) {
+                    closePopup();
+                }
+            });
+
+            // --------------------------------------------------------------------
+            // 2. LOGIKA TOMBOL HOME
+            // --------------------------------------------------------------------
+            btnPlayHome.addEventListener('click', () => {
+                // Tombol ini harus kembali ke index.html (halaman judul utama)
+            
+                    window.location.href = 'index.html'; 
+                
+            });
+        });
+    </script>
+</body>
+</html>

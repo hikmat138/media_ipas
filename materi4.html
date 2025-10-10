@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi 4: Analisis Studi Kasus Simbiosis | IPAS Kelas 3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #27ae60; 
+            --secondary-color: #f1c40f; 
+            --accent-color: #c0392b; 
+            --prev-color: #3498db; 
+            --text-color-dark: #1c1c1c;
+            --bg-overlay-color: rgba(255, 255, 255, 0.9);
+            --header-height: 65px; 
+        }
+
+        body {
+            font-family: 'Balsamiq Sans', cursive, sans-serif; 
+            margin: 0;
+            padding: 0;
+            min-height: 100vh; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; 
+            background-image: url('media/bg_ipas.jpg'); 
+            background-size: cover;
+            background-attachment: fixed; 
+            background-position: center;
+        }
+
+        .container {
+            width: 90%; 
+            max-width: 900px; 
+            text-align: center;
+            padding: 10px 0 30px 0; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; 
+        }
+
+        /* Top Bar & Pop-up */
+        .top-bar {
+            position: sticky; top: 0; left: 0; width: 100%; height: var(--header-height); padding: 10px 20px; z-index: 1000; display: flex; justify-content: flex-end; align-items: center;
+        }
+        .top-right-buttons { display: flex; margin-right: 30px; gap: 20px; align-items: center; }
+        .nav-img { cursor: pointer; transition: transform 0.2s; border-radius: 50%; background-color: #ffffff; padding: 5px; border: none; width: 45px; height: 45px; filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.5)); }
+        .nav-img:hover { transform: scale(1.1); filter: drop-shadow(0 0 8px var(--secondary-color)); }
+
+        /* KOTAK KONTEN MATERI */
+        .content-box {
+            background-color: var(--bg-overlay-color);
+            padding: 30px 40px; 
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border: 5px solid var(--accent-color); 
+            width: 100%;
+            margin-bottom: 30px; 
+        }
+
+        .content-box h2 {
+            font-family: 'Chewy', cursive, sans-serif;
+            font-size: 2.5em; 
+            color: var(--primary-color);
+            margin: 0 0 25px 0; 
+            text-shadow: 3px 3px 0 var(--secondary-color);
+        }
+        
+        /* GALERI GAMBAR KASUS */
+        .kasus-gallery {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .kasus-item {
+            width: 280px; 
+            border: 3px solid var(--prev-color);
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #f7f9f9;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s;
+        }
+
+        .kasus-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25);
+        }
+
+        .kasus-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .kasus-item p {
+            padding: 10px;
+            margin: 0;
+            font-size: 1.05em;
+            font-weight: 900;
+            color: var(--text-color-dark);
+            background-color: #a8dadc; 
+        }
+        
+        /* PERTANYAAN PEMANTIK */
+        .prompt-title {
+            font-family: 'Chewy', cursive, sans-serif;
+            font-size: 2.0em;
+            color: var(--accent-color);
+            margin-top: 20px;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 0 var(--secondary-color);
+        }
+
+        .prompt-description {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--text-color-dark);
+            margin-bottom: 25px;
+            line-height: 1.5;
+            background-color: #fef9e7;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid var(--secondary-color);
+        }
+
+        .prompt-list {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin: 0 auto;
+            max-width: 700px;
+        }
+        
+        .prompt-list li {
+            background-color: #ffeaa7; 
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 8px solid var(--accent-color);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 1.2em;
+            color: var(--text-color-dark);
+            font-weight: 700;
+            line-height: 1.5;
+            counter-increment: list-counter; 
+        }
+        
+        .prompt-list li::before {
+            content: counter(list-counter) ". ";
+            color: var(--accent-color);
+            font-weight: 900;
+            margin-right: 8px;
+        }
+
+
+        /* Tombol Navigasi Bawah */
+        .navigation-controls {
+            display: flex; justify-content: space-between; width: 100%; max-width: 600px; margin-top: 20px; margin-bottom: 30px;
+        }
+        .btn-nav {
+            display: inline-block; padding: 12px 25px; text-decoration: none; font-family: 'Chewy', cursive, sans-serif; font-size: 1.3em; color: white; border-radius: 15px; border: 5px solid var(--secondary-color); box-shadow: 0 5px 0 var(--secondary-color), 0 7px 10px rgba(0, 0, 0, 0.4); transition: all 0.15s ease-out; text-shadow: 2px 2px 0 var(--text-color-dark); flex-grow: 1; margin: 0 10px; text-align: center;
+        }
+        .btn-prev-materi { background-color: var(--prev-color); }
+        .btn-next-materi { background-color: var(--primary-color); }
+        .btn-uji { background-color: var(--accent-color); }
+        .btn-uji:hover { background-color: #e74c3c; transform: translateY(-2px); box-shadow: 0 7px 0 var(--secondary-color), 0 9px 12px rgba(0, 0, 0, 0.5); }
+        .btn-uji:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--secondary-color), 0 5px 8px rgba(0, 0, 0, 0.4); }
+
+
+        /* POPUP PROFIL */
+        #popup-profil { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .popup-content { background: linear-gradient(135deg, #f0f3f5, #ffffff); padding: 30px 40px; border-radius: 25px; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); max-width: 400px; text-align: center; border: 7px solid var(--primary-color); font-family: 'Balsamiq Sans', cursive, sans-serif; }
+        #popup-profil h3 { color: var(--accent-color); font-family: 'Chewy', cursive, sans-serif; font-size: 2.2em; margin: 0 0 10px 0; text-shadow: 2px 2px 0 var(--secondary-color); }
+        .profil-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid var(--secondary-color); margin: 10px auto 20px; }
+        .profil-detail p { font-size: 1.05em; color: #34495e; margin: 5px 0; font-weight: 700; line-height: 1.4; text-align: left; }
+        .profil-detail strong { color: var(--primary-color); display: inline-block; min-width: 100px; text-align: right; margin-right: 5px; }
+        #popup-close { margin-top: 30px; padding: 12px 30px; border: none; border-radius: 12px; background-color: var(--primary-color); color: white; font-weight: 900; cursor: pointer; }
+    </style>
+</head>
+<body>
+    
+    <div class="top-bar">
+        <div class="top-right-buttons" id="nav-buttons">
+            <img src="media/profil.jpg" alt="profil" class="nav-img btn-profil" data-menu="profil" title="Profil Pengembang">
+            <img src="media/home.png" alt="home" class="nav-img btn-play" data-menu="home" title="Kembali ke Menu Utama">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-box">
+            <h2>Mari Kita Selidiki! 🔍 Analisis Studi Kasus Simbiosis</h2>
+            
+            <p class="prompt-description">
+                Cermati dengan baik tiga gambar interaksi makhluk hidup di bawah ini. Gunakan pengetahuan kalian tentang Simbiosis untuk menganalisis hubungan yang terjadi di setiap kasus. Mari kita diskusikan temuan kalian!
+            </p>
+            
+            <div class="kasus-gallery">
+                <div class="kasus-item">
+                    <img src="media/lebah.jpg" alt="Kasus 1: Lebah dan Bunga">
+                    <p>Kasus 1: Interaksi Khas di Taman</p>
+                </div>
+                <div class="kasus-item">
+                    <img src="media/angrek.jpg" alt="Kasus 2: Anggrek dan Pohon">
+                    <p>Kasus 2: Interaksi di Hutan Rindang</p>
+                </div>
+                <div class="kasus-item">
+                    <img src="media/kutu.jpg" alt="Kasus 3: Kutu dan Anjing">
+                    <p>Kasus 3: Interaksi di Hewan Peliharaan</p>
+                </div>
+            </div>
+            
+            <p class="prompt-title">🗣️ Pertanyaan Diskusi dan Analisis</p>
+            
+            <ul class="prompt-list">
+                <li>Termasuk jenis Simbiosis apakah interaksi yang tergambar dalam kasus ini?</li>
+                <li>Bagaimana interaksi tersebut memengaruhi kedua makhluk hidup yang terlibat?</li>
+                <li>Identifikasi makhluk hidup yang diuntungkan dan yang dirugikan (atau tidak terpengaruh) dari setiap kasus!</li>
+                <li>Apa dampak jangka panjang dari interaksi ini terhadap kedua makhluk hidup tersebut?</li>
+            </ul>
+            
+        </div>
+        
+        <div class="navigation-controls">
+            <a href="materi3.html" class="btn-nav btn-prev-materi">
+                &lt;&lt; Kembali ke Definisi Simbiosis
+            </a>
+            
+            <a href="kuis.html" class="btn-nav btn-uji btn-next-materi">
+                Lanjut ke Uji Pemahaman &gt;&gt;
+            </a>
+        </div>
+    </div>
+
+    <div id="popup-profil">
+        <div class="popup-content">
+            <h3>PROFIL PENGEMBANG</h3>
+            <img src="media/profil_foto_asli.jpg" alt="Foto Profil" class="profil-img"> 
+            <div class="profil-detail">
+                <p><strong>Nama:</strong>Hikmatullah, S.Pd</p>
+                <p><strong>Jabatan:</strong>Guru Kelas</p>
+                <p><strong>Institusi:</strong>SD Negeri Ranca Tales</p>
+                <p><strong>LPTK:</strong>Universitas Islam 45</p>
+                <p><strong>Jurusan:</strong>PGSD</p>
+                <p><strong>Tahap:</strong> 3 (TIGA) </p>
+                </div>
+            <button id="popup-close">Oke, Saya Mengerti</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnProfil = document.querySelector('.btn-profil');
+            const popupProfil = document.getElementById('popup-profil');
+            const btnTutupProfil = document.getElementById('popup-close');
+            const btnPlayHome = document.querySelector('.btn-play'); 
+            
+            btnProfil.addEventListener('click', () => { popupProfil.style.display = 'flex'; });
+            const closePopup = () => { popupProfil.style.display = 'none'; };
+            btnTutupProfil.addEventListener('click', closePopup);
+            window.addEventListener('click', (event) => { if (event.target === popupProfil) { closePopup(); } });
+
+            btnPlayHome.addEventListener('click', () => { 
+            
+                    window.location.href = 'menu.html'; 
+                
+            });
+        });
+    </script>
+</body>
+</html>

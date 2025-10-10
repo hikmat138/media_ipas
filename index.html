@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Interaktif IPAS Kelas 3 - Halaman Utama</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4CAF50; /* Hijau Cerah */
+            --secondary-color: #FFC107; /* Kuning Terang */
+            --accent-color: #E91E63; /* Merah Muda Cerah */
+            --text-outline: #ffffff; /* Putih */
+            --text-color-dark: #212121; /* Abu-abu gelap, hampir hitam */
+        }
+
+        body {
+            font-family: 'Balsamiq Sans', cursive, sans-serif; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            
+            /* --- BACKGROUND IMAGE BARU (Ganti dengan gambar Anda) --- */
+            background-image: url('media/bg_index.jpg'); /* Contoh: Gambar hutan kartun */
+            background-size: cover;
+            background-attachment: fixed; 
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        /* --- JUDUL UTAMA --- */
+        .judul-utama {
+            margin-bottom: 60px; /* Jarak lebih besar dari tombol */
+            background-color: rgba(255, 255, 255, 0.85); /* Overlay putih lebih solid */
+            padding: 25px 35px;
+            border-radius: 25px; /* Lebih membulat */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Shadow lebih menonjol */
+            font-family: 'Chewy', cursive, sans-serif;
+            border: 5px solid var(--primary-color); /* Border warna primary */
+        }
+
+        .judul-utama h1 {
+            color: var(--text-color-dark); /* Hitam sedikit lebih lembut */
+            font-size: 4.5em; /* Ukuran lebih besar */
+            font-weight: 700;
+            text-shadow: 
+                -5px -5px 0 var(--text-outline),  
+                 5px -5px 0 var(--text-outline),
+                -5px 5px 0 var(--text-outline),
+                 5px 5px 0 var(--text-outline),
+                 10px 10px 0 var(--secondary-color); /* Shadow lebih besar */
+            margin: 0;
+            line-height: 1.1;
+        }
+        
+        .judul-utama h2 {
+            font-family: 'Balsamiq Sans', cursive, sans-serif;
+            color: var(--accent-color);
+            font-size: 2.5em; /* Ukuran lebih besar */
+            font-weight: 900;
+            margin-top: 20px;
+            text-shadow: 2px 2px 0 var(--text-outline); /* Outline putih untuk sub-judul */
+        }
+        
+        .judul-utama p.bab-topik {
+            font-family: 'Balsamiq Sans', cursive, sans-serif;
+            color: var(--primary-color); 
+            font-size: 1.8em; /* Ukuran lebih besar */
+            font-weight: 700;
+            margin: 15px 0 0 0;
+        }
+
+        /* --- TOMBOL MULAI (Gaya Badge/Label Game) --- */
+        #btn-mulai {
+            display: inline-block;
+            position: relative; /* Untuk shadow 3D */
+            padding: 20px 60px; /* Lebih besar */
+            font-size: 2.8em; /* Sangat besar */
+            font-family: 'Chewy', cursive, sans-serif;
+            color: white;
+            background: linear-gradient(145deg, var(--primary-color), #28a745); /* Gradient hijau */
+            border: 6px solid var(--text-color-dark); /* Border lebih tebal */
+            border-radius: 20px; /* Lebih membulat */
+            cursor: pointer;
+            text-decoration: none;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.3); /* Shadow teks */
+            
+            /* Efek 3D */
+            box-shadow: 0 15px 0 var(--accent-color), /* Shadow bawah utama */
+                        0 20px 0 #000; /* Shadow paling bawah */
+            transition: all 0.1s ease-out;
+            letter-spacing: 3px; /* Jarak antar huruf */
+        }
+
+        #btn-mulai:active {
+            box-shadow: 0 5px 0 var(--accent-color), 
+                        0 8px 0 #000;
+            transform: translateY(10px); /* Bergerak ke bawah saat ditekan */
+        }
+
+        #btn-mulai:hover {
+            background: linear-gradient(145deg, #28a745, var(--primary-color)); /* Ganti gradient saat hover */
+            transform: translateY(-3px); /* Sedikit naik saat hover */
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="judul-utama">
+            <h1>MEDIA INTERAKTIF IPAS KELAS 3</h1>
+            <h2>BAB 3: HIDUP BERSAMA ALAM</h2>
+            <p class="bab-topik">TOPIK C: HUBUNGAN UNIK ANTAR MAKHLUK HIDUP</p>
+        </div>
+
+        <a href="menu.html" id="btn-mulai">M U L A I</a>
+    </div>
+
+</body>
+</html>
