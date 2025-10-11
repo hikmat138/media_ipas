@@ -337,14 +337,14 @@
                  Swal.fire({
                     icon: 'success',
                     title: 'FOKUS SUPER! 🎯',
-                    html: `Tim kalian berhasil menemukan semua angka (1-16) dengan total **${totalFails} kali gagal**!`,
+                    html: `Tim kalian berhasil menemukan semua angka (1-9) dengan total **${totalFails} kali gagal**!`,
                     confirmButtonText: 'Luar Biasa!',
                     customClass: {
                         confirmButton: 'btn-game',
                     }
                 });
             } else {
-                alert(`SELAMAT! Tim kalian berhasil menemukan semua angka (1-16) dengan ${totalFails} kali gagal!`);
+                alert(`SELAMAT! Tim kalian berhasil menemukan semua angka (1-9) dengan ${totalFails} kali gagal!`);
             }
         }
 
@@ -405,7 +405,7 @@
             const allCards = document.querySelectorAll('.card');
             allCards.forEach(card => card.classList.add('flip')); // BUKA KARTU UNTUK DIHAFAL
             
-            instructionText.innerHTML = `**PERHATIAN:** Semua angka terbuka! Lihat angka **1** sampai **16** selama **${PREVIEW_TIMEOUT/1000} detik**!`;
+            instructionText.innerHTML = `**PERHATIAN:** Semua angka terbuka! Lihat angka **1** sampai **9** selama **${PREVIEW_TIMEOUT/1000} detik**!`;
 
             // Atur hitungan mundur (Interval)
             let countdown = PREVIEW_TIMEOUT / 1000;
@@ -418,7 +418,7 @@
                 }
                 
                 if (countdown >= 0) {
-                    instructionText.innerHTML = `**PERHATIAN:** Semua angka terbuka! Lihat angka **1** sampai **16** (Tersisa: ${countdown} detik)`;
+                    instructionText.innerHTML = `**PERHATIAN:** Semua angka terbuka! Lihat angka **1** sampai **9** (Tersisa: ${countdown} detik)`;
                 }
             }, 1000);
             
@@ -434,4 +434,5 @@
 </body>
 
 </html>
+
 
