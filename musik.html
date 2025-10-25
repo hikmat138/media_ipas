@@ -16,6 +16,7 @@
             --text-outline: #ffffff;
             --text-color-dark: #1c1c1c;
             --bg-overlay-color: rgba(255, 255, 255, 0.9);
+            --info-color: #3498db; /* Biru untuk Tombol Lagu */
         }
 
         /* Gaya Dasar */
@@ -26,8 +27,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 90vh; 
-            justify-content: center;
+            min-height: 100vh; /* Agar konten bisa full layar */
+            justify-content: flex-start; /* Mulai dari atas */
             
             /* --- PENGATURAN BACKGROUND IMAGE --- */
             background-image: url('media/bg_ipas.jpg'); 
@@ -37,19 +38,19 @@
         }
 
         .container {
-            width: 95%; /* Diperbesar agar video lebih dominan */
-            max-width: 1000px; /* Maksimal lebar untuk layar besar */
+            width: 95%;
+            max-width: 1000px;
             text-align: center;
             padding: 20px;
-            margin-top: 50px;
-            margin-bottom: 20px;
+            margin-top: 100px; /* Tambahkan ruang dari fixed top-bar */
+            margin-bottom: 40px;
         }
-        .container h2 {
+        .container h1 { /* Ubah dari h2 ke h1 untuk judul utama */
             font-family: 'Chewy', cursive, sans-serif;
-            font-size: 3.5em; /* Ukuran lebih besar */
+            font-size: 3.5em;
             color: var(--accent-color);
-            margin-bottom: 20px;
-            margin-top:1px;
+            margin-bottom: 30px;
+            margin-top: 1px;
             text-shadow: 3px 3px 0 var(--secondary-color);
         }
         /* ---------------------------------------------------------------------------------- */
@@ -104,12 +105,18 @@
             border: 5px solid var(--primary-color);
         }
 
-        .content-box h2 {
+        .video-player {
+            /* Kontainer untuk judul video dan video itu sendiri */
+            margin-top: 20px;
+        }
+        
+        .video-player h3 {
             font-family: 'Chewy', cursive, sans-serif;
-            font-size: 3em;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-            text-shadow: 3px 3px 0 var(--secondary-color);
+            font-size: 2.5em; /* Ukuran lebih kecil dari h1 */
+            color: var(--info-color);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0 var(--secondary-color);
+            min-height: 40px; /* Memastikan ada ruang saat belum ada video */
         }
 
         .video-container {
@@ -121,6 +128,12 @@
             border: 5px solid var(--accent-color);
             border-radius: 10px;
             overflow: hidden;
+            background-color: #34495e; /* Warna latar belakang gelap untuk kotak video */
+            display: none; /* Sembunyikan secara default */
+        }
+        
+        .video-container.active {
+            display: block; /* Tampilkan jika aktif */
         }
 
         .video-container iframe {
@@ -131,6 +144,50 @@
             height: 100%;
         }
         
+        /* ---------------------------------------------------------------------------------- */
+        /* --- GAYA TOMBOL PEMILIH LAGU --- */
+        /* ---------------------------------------------------------------------------------- */
+        .song-selector {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap; /* Agar responsif di layar kecil */
+        }
+        
+        .btn-song {
+            padding: 10px 25px;
+            text-decoration: none;
+            font-family: 'Chewy', cursive, sans-serif;
+            font-size: 1.5em;
+            color: white;
+            background-color: var(--info-color); /* Blue */
+            border-radius: 10px;
+            border: 4px solid var(--text-color-dark);
+            box-shadow: 0 5px 0 var(--text-color-dark), 0 7px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.1s ease-out;
+            cursor: pointer;
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+        }
+        
+        .btn-song:hover {
+            background-color: #5dade2; /* Lighter Blue */
+            transform: translateY(-1px);
+            box-shadow: 0 6px 0 var(--text-color-dark), 0 8px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .btn-song.active {
+            background-color: var(--accent-color); /* Red when active */
+            border-color: var(--secondary-color);
+            box-shadow: 0 3px 0 var(--secondary-color), 0 5px 8px rgba(0, 0, 0, 0.4);
+            transform: translateY(2px);
+        }
+        
+        .btn-song:active {
+            transform: translateY(5px);
+            box-shadow: 0 0px 0 var(--text-color-dark), 0 2px 5px rgba(0, 0, 0, 0.4);
+        }
+
         /* ---------------------------------------------------------------------------------- */
         /* --- GAYA TOMBOL NEXT (TUJUAN PEMBELAJARAN) --- */
         /* ---------------------------------------------------------------------------------- */
@@ -164,6 +221,7 @@
         /* ---------------------------------------------------------------------------------- */
         /* --- Bagian POPUP (SAMA PERSIS DENGAN MENU) --- */
         /* ---------------------------------------------------------------------------------- */
+        /* (Gaya Popup tidak diubah dari kode asli) */
         #popup-profil {
             position: fixed;
             top: 0;
@@ -261,17 +319,31 @@
     </div>
 
     <div class="container">
+        <h1>Musik Wajib Nasional</h1>
+        
         <div class="content-box">
-            <h2>Instrumental Lagu: Tanah Airku</h2>
             
-            <div class="video-container">
-                <iframe 
-                    src="https://www.youtube.com/embed/9W_1orXluIY?si=J6PEVZAnzRZse3aw" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
+            <div class="song-selector">
+                <button class="btn-song" data-song="tanah-airku">Tanah Airku</button>
+                <button class="btn-song" data-song="indonesia-raya">Indonesia Raya</button>
             </div>
+            
+            <div class="video-player">
+                <h3 id="video-title">Pilih lagu di atas untuk diputar!</h3>
+                
+                <div class="video-container" id="video-embed">
+                    <iframe 
+                        id="player-iframe"
+                        src="" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                
+                </div>
+            
+            <a href="tujuan_pembelajaran.html" class="btn-tujuan">Lanjut ke Tujuan Pembelajaran</a>
         </div>
         
     </div>
@@ -294,25 +366,60 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // === Elemen Pop-up ===
+            // Data Lagu
+            const songs = {
+                'tanah-airku': {
+                    title: 'Instrumental Lagu: Tanah Airku',
+                    embedUrl: 'https://www.youtube.com/embed/9W_1orXluIY?si=J6PEVZAnzRZse3aw&autoplay=1'
+                },
+                'indonesia-raya': {
+                    title: 'Instrumental Lagu: Indonesia Raya',
+                    embedUrl: 'https://www.youtube.com/embed/g2F-G2lK1-U?si=2e1gOaQ8D6Jg5rO0&autoplay=1' /* Contoh URL, Anda bisa ganti */
+                }
+            };
+            
+            // Elemen DOM
             const btnProfil = document.querySelector('.btn-profil');
             const popupProfil = document.getElementById('popup-profil');
             const btnTutupProfil = document.getElementById('popup-close');
-            
-            // === Elemen Navigasi Top Bar ===
             const btnPlayHome = document.querySelector('.btn-play'); 
+            const songButtons = document.querySelectorAll('.btn-song');
+            const videoContainer = document.getElementById('video-embed');
+            const videoTitle = document.getElementById('video-title');
+            const playerIframe = document.getElementById('player-iframe');
             
             // --------------------------------------------------------------------
-            // 1. LOGIKA POPUP PROFIL PENGEMBANG
+            // 1. LOGIKA PEMILIH LAGU (VIDEO)
+            // --------------------------------------------------------------------
+            songButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const songKey = button.getAttribute('data-song');
+                    const songData = songs[songKey];
+                    
+                    // Nonaktifkan semua tombol dan aktifkan tombol yang diklik
+                    songButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Perbarui judul
+                    videoTitle.textContent = songData.title;
+                    
+                    // Perbarui sumber iframe dan tampilkan container
+                    // Menambahkan &autoplay=1 di URL agar video langsung putar
+                    playerIframe.src = songData.embedUrl; 
+                    videoContainer.classList.add('active');
+                });
+            });
+            
+            // --------------------------------------------------------------------
+            // 2. LOGIKA POPUP PROFIL PENGEMBANG
             // --------------------------------------------------------------------
             btnProfil.addEventListener('click', () => {
                 popupProfil.style.display = 'flex';
             });
             
             const closePopup = () => {
-                 // Menghilangkan display setelah animasi berakhir
+                // Menambahkan kelas untuk animasi keluar (opsional, jika ingin animasi)
                 popupProfil.style.display = 'none';
-                // Reset animasi pop-up agar bisa di-trigger lagi
                 popupProfil.querySelector('.popup-content').style.animation = 'popUp 0.3s forwards'; 
             };
 
@@ -326,13 +433,10 @@
             });
 
             // --------------------------------------------------------------------
-            // 2. LOGIKA TOMBOL HOME
+            // 3. LOGIKA TOMBOL HOME
             // --------------------------------------------------------------------
             btnPlayHome.addEventListener('click', () => {
-                // Tombol ini kembali ke menu.html (halaman menu utama)
-                
-                    window.location.href = 'menu.html'; 
-                
+                window.location.href = 'menu.html'; 
             });
         });
     </script>
