@@ -146,7 +146,7 @@
         <div class="content-box">
             <h1>GAMES MEMORI ANGKA 9 </h1>
             <p class="instructions" id="instruction-text">
-                **PERHATIAN:** Klik tombol "Mulai Game" di bawah untuk melihat semua angka selama 5 detik!
+                **PERHATIAN:** Klik tombol "Mulai Game" di bawah untuk melihat semua angka selama 2 detik!
             </p>
             
             <div class="game-board" id="game-board">
@@ -185,7 +185,7 @@
         let timerInterval = null; 
         let previewTimeout = null; 
 
-        const PREVIEW_TIMEOUT = 5000; 
+        const PREVIEW_TIMEOUT = 2000; 
         const FAIL_TIMEOUT = 1000; 
 
         // Audio Effects (Pastikan file audio tersedia di folder 'media/')
@@ -413,7 +413,7 @@
                 countdown--;
                 
                 // Suara countdown berbunyi di 3 detik terakhir
-                if (countdown === 4) {
+                if (countdown === 1) {
                     countdownAudio.play(); 
                 }
                 
@@ -434,6 +434,7 @@
 </body>
 
 </html>
+
 
 
 
